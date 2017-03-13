@@ -67,8 +67,9 @@ Theta2_grad = zeros(size(Theta2));
 
 %setup the Ys
 Y = [];
+Y = zeros(m, num_labels);
+
 for i = 1:m
-  Y = [Y; zeros(1, num_labels)];
   Y(i, y(i)) = 1;
 endfor
 
@@ -95,9 +96,30 @@ Reg = (lambda / (2*m) ) * Reg;
 
 J = J + Reg;
 
+Delta = zeros(2);
 
+for t=1:m
+  Z2 = X(t, :) * Theta1';
+  A2 = sigmoid(Z2);
+  A2 = [ones(size(A2, 1), 1) A2];
+  Z3 = A2 * Theta2';
+  A3 = sigmoid(Z3);
+  
+  %disp('delta3')
+  delta3 = A3 - Y(t, :);
+  delta3 = delta3'; %colum vector now
+  %disp('delta2')
+  delta2 = Theta2(:, 2:end)' * delta3 .* sigmoidGradient(Z2');
+  %delta2 = delta2';
+  %delta2 = delta2(:, 2:end);
+  %disp('Theta2_grad')
+  Theta2_grad = Theta2_grad + delta3 * (A2);
+  %disp('Theta1_grad')
+  Theta1_grad = Theta1_grad + delta2 * (X(t, :));
+endfor
 
-
+Theta2_grad = 1/m * Theta2_grad + (lambda / m ) * [zeros(size(Theta2(:, 1))) Theta2(:, 2:end)];
+Theta1_grad = 1/m * Theta1_grad + (lambda / m ) * [zeros(size(Theta1(:, 1))) Theta1(:, 2:end)];
 
 
 
