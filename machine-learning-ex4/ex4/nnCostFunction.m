@@ -84,8 +84,16 @@ someJ = 1/m * (-Y .* log(L3) - (1 - Y) .* log(1 - L3));
 
 J = sum(sum(someJ));
 
+SqTheta1 = Theta1 .^ 2;
+SqTheta1(:, 1) = 0;
 
+SqTheta2 = Theta2 .^ 2;
+SqTheta2(:, 1) = 0;
 
+Reg = sum(sum(SqTheta1)) + sum(sum(SqTheta2));
+Reg = (lambda / (2*m) ) * Reg;
+
+J = J + Reg;
 
 
 
