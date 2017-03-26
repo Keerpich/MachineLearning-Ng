@@ -17,7 +17,8 @@ sim = 0;
 %
 
 
-
+dist = sum((x1 - x2) .^ 2);
+sim = exp(-1 * dist / (2 * sigma ^ 2));
 
 
 
