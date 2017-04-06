@@ -28,7 +28,18 @@ centroids = zeros(K, n);
 
 
 
-
+for i = 1:K
+  numberOfItems = 0;
+  sum = zeros(1, n);
+  for j = 1:m   
+    if idx(j) == i
+      sum = sum + X(j, :);
+      numberOfItems = numberOfItems + 1;
+    endif
+  endfor
+  
+  centroids(i, :) = sum / numberOfItems;
+endfor
 
 
 

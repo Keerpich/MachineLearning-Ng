@@ -22,7 +22,21 @@ idx = zeros(size(X,1), 1);
 %
 
 
-
+for i = 1:size(X, 1)
+  mindistance = -1;
+  c = -1;
+  for j = 1:K
+    diff = X(i, :) - centroids(j, :);
+    dist = (sum(diff .^ 2));    
+    if dist < mindistance || mindistance == -1
+      mindistance = dist;
+      c = j;
+    endif
+  endfor
+  
+  idx(i) = c;
+  
+endfor
 
 
 
